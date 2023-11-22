@@ -47,7 +47,7 @@ The client is a thin layer of code in Typescript. The "install.sh" script builds
     cd VsCode
     bash clean.sh && bash install.sh
 
-3) Create (or copy) an Antlr4 grammar
+3) Create (or copy) an Antlr4 Bubbler grammar
 The grammar must be processed by the
 [trgen](https://github.com/kaby76/Domemtech.Trash/tree/main/trgen) (0.14.3) application of Trash.
 `trgen` creates a standardized parser application from templates.
@@ -60,7 +60,7 @@ The grammar must be processed by the
     code .
     
 In VSCode, open a file (e.g., a Java source file). In the lower right corner, there is a type. Change
-the type of the file to "any". It takes a little while, but it should colorize the source file.
+the type of the file to "Bubbler". It takes a little while, but it should colorize the source file.
 
 ## Implementation
 
