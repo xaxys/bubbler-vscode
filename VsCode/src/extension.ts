@@ -10,7 +10,7 @@ import * as vscodelc from 'vscode-languageclient/node';
  */
 function getConfig<T>(option: string, defaultValue?: any): T
 {
-    const config = vscode.workspace.getConfiguration('uni-vscode');
+    const config = vscode.workspace.getConfiguration('bubbler');
     return config.get<T>(option, defaultValue);
 }
 
@@ -42,7 +42,7 @@ class FileStatus
             this.statusBarItem.hide();
             return;
         }
-        this.statusBarItem.text = `uni-vscode: ` + status.state;
+        this.statusBarItem.text = `bubbler: ` + status.state;
         this.statusBarItem.show();
     }
 
@@ -65,9 +65,9 @@ export function activate(context: vscode.ExtensionContext)
     var fn = "dotnet";
     
     var isWin = process.platform === "win32";
-    var ag = __dirname + '/../Server/net5.0/Server.dll';
-    if (! isWin) {
-        ag = __dirname + '/../server/net5.0/Server.dll';
+    var ag = __dirname + '/../Server/net7.0/Server.dll';
+    if (!isWin) {
+        ag = __dirname + '/../server/net7.0/Server.dll';
     }
 
     const server: vscodelc.Executable =
@@ -83,15 +83,15 @@ export function activate(context: vscode.ExtensionContext)
     {
         // Register the server for plain text documents
         documentSelector: [
-            {scheme: 'file', language: 'any'},
+            {scheme: 'file', language: 'bubbler'},
         ]
     };
 
-    client = new vscodelc.LanguageClient('Universal Language Server', serverOptions, clientOptions);
+    client = new vscodelc.LanguageClient('Bubbler Language Server', serverOptions, clientOptions);
     
     client.registerProposedFeatures();
     
-    console.log('Universal Language Server is now active!');
+    console.log('Bubbler Language Server is now active!');
     client.start();
 }
 

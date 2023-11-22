@@ -1,4 +1,3 @@
-# uni-vscode
+# Bubbler
 
-A universal language server with basic pluggable Antlr grammars
-and XPath classifiers.
+A bubbler language server for VSCode.

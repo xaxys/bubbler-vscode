@@ -14,6 +14,15 @@
         private static readonly ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
         private static bool done = false;
 
+        public LogTextWriter() {
+            CleanUpLogFile();
+        }
+
+        ~LogTextWriter()
+        {
+            CleanUpLogFile();
+        }
+
         // This method must only be called from the client so multiple instances of the
         // server doesn't blow away the file after the client already had.
         public void CleanUpLogFile()
@@ -22,14 +31,14 @@
             done = true;
             var log = home
                + System.IO.Path.DirectorySeparatorChar
-               + ".antlrlog";
+               + ".bubbler.log";
             cacheLock.EnterWriteLock();
             try
             {
                 File.Delete(log);
                 using (StreamWriter w = File.AppendText(log))
                 {
-                    w.WriteLine("Logging for Antlrvsix started "
+                    w.WriteLine("Logging for Bubbler Language Server started "
                         + DateTime.Now.ToString());
                 }
             }
@@ -43,7 +52,7 @@
         {
             var log = home
                + System.IO.Path.DirectorySeparatorChar
-               + ".antlrlog";
+               + ".bubbler.log";
             cacheLock.EnterWriteLock();
             try
             {
@@ -62,7 +71,7 @@
         {
             var log = home
                + System.IO.Path.DirectorySeparatorChar
-               + ".antlrlog";
+               + ".bubbler.log";
             cacheLock.EnterWriteLock();
             try
             {
@@ -81,7 +90,7 @@
         {
             var log = home
                + System.IO.Path.DirectorySeparatorChar
-               + ".antlrlog";
+               + ".bubbler.log";
             cacheLock.EnterWriteLock();
             try
             {

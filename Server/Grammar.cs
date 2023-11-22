@@ -41,6 +41,10 @@ public class Grammar
             .Where(p => p.Suffix == Path.GetExtension(document.FullPath))
             .Select(p => p.ParserLocation)
             .First();
+        if (!Path.IsPathRooted(dll))
+        {
+            dll = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + dll;
+        }
         var full_path = Path.GetDirectoryName(dll);
         Assembly asm1 = Assembly.LoadFile(full_path + Path.DirectorySeparatorChar + "Antlr4.Runtime.Standard.dll");
         Assembly asm = Assembly.LoadFile(dll);

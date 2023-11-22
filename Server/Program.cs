@@ -25,7 +25,7 @@
         public static void Main(string[] args)
         {
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var fn = ".uni-vscode.rc";
+            var fn = ".bubbler.config.json";
             var ffn = home + Path.DirectorySeparatorChar + fn;
             if (System.IO.File.Exists(ffn))
             {
@@ -39,22 +39,29 @@
                 {
                     new Options()
                     {
-                        Suffix = ".java",
-                        ParserLocation = "c:/Users/kenne/Documents/GitHub/i2248/java/java/Generated/bin/Debug/net5.0/Test.dll",
+                        Suffix = ".bb",
+                        ParserLocation = "Test.dll",
                         ClassesAndClassifiers = new List<Tuple<string, string>>()
                         {
-                            new Tuple<string, string>("class", "//classDeclaration/IDENTIFIER"),
-                            new Tuple<string, string>("property", "//fieldDeclaration/variableDeclarators/variableDeclarator/variableDeclaratorId/IDENTIFIER"),
-                            new Tuple<string, string>("variable", "//variableDeclarator/variableDeclaratorId/IDENTIFIER"),
-                            new Tuple<string, string>("method", "//methodDeclaration/IDENTIFIER"),
-                            new Tuple<string, string>("keyword", "//(ABSTRACT | ASSERT | BOOLEAN | BREAK | BYTE | CASE | CHAR | CLASS | CONST | CONTINUE | DEFAULT | DO | DOUBLE | ELSE | ENUM | EXTENDS | FINAL | FINALLY | FLOAT | FOR | IF | GOTO | IMPLEMENTS | IMPORT | INSTANCEOF | INT | INTERFACE | LONG | NATIVE | NEW | PACKAGE | PRIVATE | PROTECTED | PUBLIC | SHORT | STATIC | STRICTFP | SUPER | SWITCH | SYNCHRONIZED | THIS | THROW | THROWS | TRANSIENT | TRY | VOID | VOLATILE | WHILE)"),
-                            new Tuple<string, string>("string", "//(DECIMAL_LITERAL | HEX_LITERAL | OCT_LITERAL | BINARY_LITERAL | HEX_FLOAT_LITERAL | BOOL_LITERAL | CHAR_LITERAL | STRING_LITERAL | NULL_LITERAL)"),
+                            new Tuple<string, string>("struct", "//structDef/structName/ident/IDENTIFIER"),
+                            new Tuple<string, string>("property", "//fieldName/ident/IDENTIFIER"),
+                            new Tuple<string, string>("enum", "//enumDef/enumName/ident/IDENTIFIER"),
+                            new Tuple<string, string>("enumMember", "//enumField/ident/IDENTIFIER"),
+                            new Tuple<string, string>("typeParameter", "//(type_/ident/IDENTIFIER | VOID | INT8 | INT16 | INT32 | INT64 | UINT8 | UINT16 | UINT32 | UINT64 | FLOAT32 | FLOAT64 | BOOL | STRING | BYTES )"),
+                            new Tuple<string, string>("macro", "//VALUE"),
+                            new Tuple<string, string>("modifier", "//fieldMethod/methodName/ident/IDENTIFIER"),
+                            new Tuple<string, string>("method", "//( fieldMethod/GET | fieldMethod/SET )"),
+                            new Tuple<string, string>("keyword", "//( BOOL_LIT | ENUM | STRUCT | IMPORT )"),
+                            new Tuple<string, string>("comment", "//( COMMENT | LINE_COMMENT )"),
+                            new Tuple<string, string>("string", "//STR_LIT"),
+                            new Tuple<string, string>("number", "//( INT_LIT | FLOAT_LIT )"),
+                            new Tuple<string, string>("operator", "//( HASH | SEMI | ASSIGN | QUESTION | LP | RP | LB | RB | LC | RC | LT | LE | GT | GE | EQ | NE | DOT | COMMA | COLON | ADD | SUB | MUL | DIV | MOD | POW | SHL | SHR | BAND | BOR | BXOR | BNOT | AND | OR | NOT )"),
                         }
                     }
                 };
-                Utf8JsonWriter swj = new Utf8JsonWriter(File.Open(ffn, FileMode.CreateNew));
-                JsonSerializer.Serialize<List<Options>>(swj, Program.Options);
-                swj.Dispose();
+                // Utf8JsonWriter swj = new Utf8JsonWriter(File.Open(ffn, FileMode.CreateNew));
+                // JsonSerializer.Serialize(swj, Program.Options);
+                // swj.Dispose();
                 Program.Options = options;
             }
 

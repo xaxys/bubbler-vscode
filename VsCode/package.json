@@ -1,36 +1,36 @@
 {
-  "name": "uni-vscode",
-  "author": "Ken Domino",
-  "bugs": {
-    "url": "https://github.com/kaby76/uni-vscode/issues"
-  },
+  "name": "Bubbler",
+  "author": "xaxys",
+  "bugs": {},
   "categories": [],
-  "description": "Universal Language Server",
+  "description": "Bubbler Language Server. Powered by kaby76/uni-vscode",
   "homepage": "https://github.com/kaby76/uni-vscode/blob/master/README.md",
-  "icon": "uni_large.png",
+  "icon": "bubbler_logo.png",
   "keywords": [
-    "antlr"
+    "bubbler"
   ],
   "license": "MIT",
-  "publisher": "KenDomino",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kaby76/uni-vscode"
-  },
+  "publisher": "xaxys",
+  "repository": {},
   "version": "1.0.0",
   "engines": {
     "vscode": "^1.48.0"
   },
   "activationEvents": [
-    "onLanguage:any"
+    "onLanguage:bubbler"
   ],
   "main": "./out/extension",
   "contributes": {
     "languages": [
       {
-        "id": "any",
+        "id": "bubbler",
+        "aliases": [
+          "Bubbler",
+          "bubbler"
+        ],
         "extensions": [
-          ".txt"
+          ".bb",
+          ".bubbler"
         ]
       }
     ],
@@ -38,12 +38,6 @@
       "type": "object",
       "title": "Example configuration",
       "properties": {
-        "languageServerExample.maxNumberOfProblems": {
-          "scope": "resource",
-          "type": "number",
-          "default": 100,
-          "description": "Controls the maximum number of problems produced by the server."
-        },
         "languageServerExample.trace.server": {
           "scope": "window",
           "type": "string",
@@ -63,8 +57,10 @@
     "compile": "tsc -p ./"
   },
   "dependencies": {
+    "@vscode/vsce": "^2.22.0",
     "abort-controller": "3.0.0",
     "jsonc-parser": "2.3.0",
+    "node-gyp": "^10.0.1",
     "vscode-jsonrpc": "^6.0.0-next.5",
     "vscode-languageclient": "^7.0.0-next.9",
     "vscode-languageserver": "^7.0.0-next.7",
@@ -76,11 +72,11 @@
     "@types/mocha": "^8.0.3",
     "@types/node": "^14.6.2",
     "@types/vscode": "1.48.0",
+    "@vscode/vsce": "^2.22.0",
     "glob": "^7.1.4",
-    "mocha": "^7.1.0",
+    "mocha": "^10.2.0",
     "tslint": "^5.16.0",
     "typescript": "^3.8.3",
-    "vsce": "^1.75.0",
     "vscode-test": "^1.3.0"
   },
   "configuration": {
