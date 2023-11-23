@@ -1,18 +1,23 @@
 {
   "name": "Bubbler",
   "author": "xaxys",
-  "bugs": {},
+  "bugs": {
+    "url": "https://github.com/xaxys/bubbler-vscode/issues"
+  },
   "categories": [],
   "description": "Bubbler Language Server. Powered by kaby76/uni-vscode",
-  "homepage": "https://github.com/kaby76/uni-vscode/blob/master/README.md",
+  "homepage": "https://github.com/xaxys/bubbler-vscode",
   "icon": "bubbler_logo.png",
   "keywords": [
     "bubbler"
   ],
   "license": "MIT",
   "publisher": "xaxys",
-  "repository": {},
-  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xaxys/bubbler-vscode.git"
+  },
+  "version": "1.1.0",
   "engines": {
     "vscode": "^1.48.0"
   },

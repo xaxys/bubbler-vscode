@@ -159,9 +159,9 @@
             int start = term.Symbol.StartIndex;
             int stop = term.Symbol.StopIndex + 1;
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < _all_classified_nodes.Count; ++i)
+            for (int i = 0; i < (_all_classified_nodes[doc]?.Count ?? 0); ++i)
             {
-                var c = _all_classified_nodes[i];
+                var c = _all_classified_nodes[doc][i];
                 if (c.Contains(pt))
                 {
                     var clas = Grammar.Classes(suffix)[i];
@@ -184,9 +184,9 @@
             Antlr4.Runtime.Tree.IParseTree p = pt;
             TerminalNodeImpl q = p as Antlr4.Runtime.Tree.TerminalNodeImpl;
             if (q == null) return -1;
-            for (int i = 0; i < _all_classified_nodes.Count; ++i)
+            for (int i = 0; i < (_all_classified_nodes[doc]?.Count ?? 0); ++i)
             {
-                if (_all_classified_nodes[i].Contains(q)) return i;
+                if (_all_classified_nodes[doc][i].Contains(q)) return i;
             }
             return -1;
         }
@@ -201,9 +201,9 @@
             Antlr4.Runtime.Tree.IParseTree p = pt;
             TerminalNodeImpl q = p as Antlr4.Runtime.Tree.TerminalNodeImpl;
             if (q == null) return null;
-            for (int i = 0; i < _all_classified_nodes.Count; ++i)
+            for (int i = 0; i < (_all_classified_nodes[doc]?.Count ?? 0); ++i)
             {
-                if (_all_classified_nodes[i].Contains(q))
+                if (_all_classified_nodes[doc][i].Contains(q))
                 {
                     return new DocumentSymbol()
                     {
@@ -224,9 +224,9 @@
             }
 
             List<DocumentSymbol> combined = new List<DocumentSymbol>();
-            for (int i = 0; i < _all_classified_nodes.Count; ++i)
+            for (int i = 0; i < (_all_classified_nodes[doc]?.Count ?? 0); ++i)
             {
-                foreach (var p in _all_classified_nodes[i])
+                foreach (var p in _all_classified_nodes[doc][i])
                 {
                     var q = p as TerminalNodeImpl;
                     if (q == null) continue;
@@ -260,9 +260,9 @@
                     Compile(doc.Workspace);
                 }
                 List<Info> combined = new List<Info>();
-                for (int i = 0; i < _all_classified_nodes.Count; ++i)
+                for (int i = 0; i < (_all_classified_nodes[doc]?.Count ?? 0); ++i)
                 {
-                    foreach (var p in _all_classified_nodes[i])
+                    foreach (var p in _all_classified_nodes[doc][i])
                     {
                         var q = p as TerminalNodeImpl;
                         var sym = q.Symbol;
@@ -301,9 +301,9 @@
                     Compile(doc.Workspace);
                 }
                 List<Info> combined = new List<Info>();
-                for (int i = 0; i < _all_classified_nodes.Count; ++i)
+                for (int i = 0; i < (_all_classified_nodes[doc]?.Count ?? 0); i++)
                 {
-                    foreach (var p in _all_classified_nodes[i])
+                    foreach (var p in _all_classified_nodes[doc][i])
                     {
                         var q = p as TerminalNodeImpl;
                         var sym = q.Symbol;
@@ -483,9 +483,9 @@
             {
                 Compile(doc.Workspace);
             }
-            for (int i = 0; i < _all_classified_nodes.Count; ++i)
+            for (int i = 0; i < (_all_classified_nodes[doc]?.Count ?? 0); ++i)
             {
-                foreach (var p in _all_classified_nodes[i])
+                foreach (var p in _all_classified_nodes[doc][i])
                 {
                     var q = p as TerminalNodeImpl;
                     if (q == null) continue;
@@ -502,7 +502,7 @@
         }
 
         static Dictionary<Document, IParseTree> _all_parses = new Dictionary<Document, IParseTree>();
-        static List<List<IParseTree>> _all_classified_nodes = new List<List<IParseTree>>();
+        static Dictionary<Document, List<List<IParseTree>>> _all_classified_nodes = new Dictionary<Document, List<List<IParseTree>>>();
 
         public Dictionary<Document, IParseTree> Compile(Workspace workspace)
         {
@@ -517,12 +517,12 @@
                     var p = Grammar.Parse(document);
                     _all_parses[document] = p;
                     document.Changed = false;
-                    _all_classified_nodes = new List<List<IParseTree>>();
+                    _all_classified_nodes[document] = new List<List<IParseTree>>();
                     foreach (var c in Grammar.Classifiers(suffix))
                     {
                         if (c == "")
                         {
-                            _all_classified_nodes.Add(new List<IParseTree>());
+                            _all_classified_nodes[document].Add(new List<IParseTree>());
                             continue;
                         }
                         var (tree, parser, lexer) = (p, Grammar.Parser, Grammar.Lexer);
@@ -532,7 +532,7 @@
                             var nodes = engine.parseExpression(c,
                                     new StaticContextBuilder()).evaluate(dynamicContext, new object[] { dynamicContext.Document })
                                 .Select(x => (x.NativeValue as AntlrTreeEditing.AntlrDOM.AntlrElement).AntlrIParseTree).ToList();
-                            _all_classified_nodes.Add(nodes);
+                            _all_classified_nodes[document].Add(nodes);
                         }
                     }
                 }

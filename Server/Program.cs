@@ -10,6 +10,7 @@
     using System.IO;
     using System.Text;
     using System.Text.Json;
+    using LoggerNs;
 
     internal partial class Program : IDisposable
     {
@@ -27,6 +28,14 @@
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var fn = ".bubbler.config.json";
             var ffn = home + Path.DirectorySeparatorChar + fn;
+            var debugFolder = home + Path.DirectorySeparatorChar + ".bubbler.debug";
+            var debugFlag = false;
+            if (System.IO.Directory.Exists(debugFolder))
+            {
+                debugFlag = true;
+                Logger.Log.Prefix = debugFolder;
+            }
+
             if (System.IO.File.Exists(ffn))
             {
                 var jsonString = File.ReadAllText(home + Path.DirectorySeparatorChar + fn);
@@ -39,6 +48,7 @@
                 {
                     new Options()
                     {
+                        Debug = debugFlag,
                         Suffix = ".bb",
                         ParserLocation = "Test.dll",
                         ClassesAndClassifiers = new List<Tuple<string, string>>()
@@ -68,7 +78,8 @@
             //TimeSpan delay = new TimeSpan(0, 0, 0, 20);
             //Console.Error.WriteLine("Waiting " + delay + " seconds...");
             //Thread.Sleep((int)delay.TotalMilliseconds);
-            LoggerNs.Logger.Log.WriteLine("Starting");
+            Logger.Log.Enable = Program.Options[0]?.Debug ?? debugFlag;
+            Logger.Log.WriteLine("Starting");
             Program program = new Program();
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
             program.MainAsync(args).GetAwaiter().GetResult();

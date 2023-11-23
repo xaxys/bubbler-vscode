@@ -13,6 +13,11 @@
         private static readonly string home = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
         private static readonly ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
         private static bool done = false;
+        const string log = ".bubbler.log";
+        private bool enable = false;
+        public bool Enable { get { return enable; } set { enable = value; CleanUpLogFile(); } }
+        public string Prefix { get; set; } = "";
+        public string Path => Prefix == "" ? home + System.IO.Path.DirectorySeparatorChar + log : Prefix + System.IO.Path.DirectorySeparatorChar + log;
 
         public LogTextWriter() {
             CleanUpLogFile();
@@ -29,17 +34,14 @@
         {
             if (done) return;
             done = true;
-            var log = home
-               + System.IO.Path.DirectorySeparatorChar
-               + ".bubbler.log";
             cacheLock.EnterWriteLock();
             try
             {
-                File.Delete(log);
-                using (StreamWriter w = File.AppendText(log))
+                if (!enable) return;
+                File.Delete(Path);
+                using (StreamWriter w = File.AppendText(Path))
                 {
-                    w.WriteLine("Logging for Bubbler Language Server started "
-                        + DateTime.Now.ToString());
+                    w.WriteLine("Logging for Bubbler Language Server started " + DateTime.Now.ToString());
                 }
             }
             finally
@@ -50,13 +52,11 @@
 
         public override void Write(string message)
         {
-            var log = home
-               + System.IO.Path.DirectorySeparatorChar
-               + ".bubbler.log";
             cacheLock.EnterWriteLock();
             try
             {
-                using (StreamWriter w = File.AppendText(log))
+                if (!enable) return;
+                using (StreamWriter w = File.AppendText(Path))
                 {
                     w.Write(message);
                 }
@@ -69,13 +69,11 @@
 
         public override void WriteLine(string message)
         {
-            var log = home
-               + System.IO.Path.DirectorySeparatorChar
-               + ".bubbler.log";
             cacheLock.EnterWriteLock();
             try
             {
-                using (StreamWriter w = File.AppendText(log))
+                if (!enable) return;
+                using (StreamWriter w = File.AppendText(Path))
                 {
                     w.WriteLine(message);
                 }
@@ -88,13 +86,11 @@
 
         public override void WriteLine()
         {
-            var log = home
-               + System.IO.Path.DirectorySeparatorChar
-               + ".bubbler.log";
             cacheLock.EnterWriteLock();
             try
             {
-                using (StreamWriter w = File.AppendText(log))
+                if (!enable) return;
+                using (StreamWriter w = File.AppendText(Path))
                 {
                     w.WriteLine();
                 }
