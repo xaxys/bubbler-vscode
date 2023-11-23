@@ -10,7 +10,7 @@ A bubbler language server for VSCode.
 
 Powered by [uni-vscode](https://github.com/kaby76/uni-vscode).
 
-Quick install for VSCode: [bubble-vscode](https://marketplace.visualstudio.com/items?itemName=xaxys.Bubbler)
+Quick install for VSCode: [bubbler-vscode](https://marketplace.visualstudio.com/items?itemName=xaxys.Bubbler)
 
 This is a "bubbler language" vscode extension based on Antlr
 and Language Server Protocol. It is useful for quick parsing checks
