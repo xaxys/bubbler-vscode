@@ -12,11 +12,7 @@ Powered by [uni-vscode](https://github.com/kaby76/uni-vscode).
 
 Quick install for VSCode: [bubbler-vscode](https://marketplace.visualstudio.com/items?itemName=xaxys.Bubbler)
 
-This is a "bubbler language" vscode extension based on Antlr
-and Language Server Protocol. It is useful for quick parsing checks
-using VSCode. Semantic highlighting is the only major component implemented
-because static semantics computations (aka attributes) are not implemented
-for grammars.
+This is a "bubbler language" vscode extension based on Antlr and Language Server Protocol. It is useful for quick parsing checks using VSCode. Semantic highlighting is the only major component implemented because static semantics computations (aka attributes) are not implemented for grammars.
 
 The code is divided into two parts:
 Server and Client:
@@ -28,53 +24,57 @@ extension.
 
 ## How to build this extension
 
-1) You will need prerequisites:
+### 1. You will need prerequisites
 
 * [.NET SDK](https://dotnet.microsoft.com/) (7.0 or higher)
 * [Trash](https://github.com/kaby76/Domemtech.Trash#install) (0.14.3)
 
-2) Clone the repo. Run dotnet to build the language server, and run the "install.sh" script
-to create the extesion for VSCode.
+### 2. Clone the repo. Run dotnet to build the language server
 
-The server is a
-C# program that reads stdin and writes to stdout. VSCode will redirect the input and output
-in order to communicate with the server.
+The server is a C# program that reads stdin and writes to stdout. VSCode will redirect the input and output in order to communicate with the server.
 
-The client is a thin layer of code in Typescript. The "install.sh" script builds the
-.vsix file which you can install.
-
-```shell
+```sh
 git clone https://github.com/xaxys/bubbler-vscode.git
 cd bubbler-vscode
 dotnet build
-cd VsCode
-bash clean.sh && bash install.sh
 ```
 
-3) Create (or copy) an Antlr4 Bubbler grammar
-The grammar must be processed by the
-[trgen](https://github.com/kaby76/Domemtech.Trash/tree/main/trgen) (0.14.3) application of Trash.
-`trgen` creates a standardized parser application from templates.
+### 3. Create (or copy) an Antlr4 Bubbler grammar
 
-```shell
+The grammar must be processed by the [trgen](https://github.com/kaby76/Domemtech.Trash/tree/main/trgen) (0.14.3) application of Trash. `trgen` creates a standardized parser application from templates.
+
+Recommand to use .Net5.0
+
+```sh
 cd Trgen
+mkdir Generated
 trgen -s proto
+```
+
+```sh
 cd Generated
 dotnet build
 ```
 
-4) Run VSCode, and install the .vsix 
+### 4. Copy the language server and the generated parser, then run the "install.sh" script to create the extesion for VSCode
 
+The client is a thin layer of code in Typescript. The "install.sh" script builds the .vsix file which you can install.
+
+```sh
+cd VsCode
+bash clean.sh && bash install.sh
 ```
+
+### 5. Run VSCode, and install the .vsix
+
+```sh
 code .
 ```
-    
-In VSCode, open a file (e.g., a Bubbler source file). In the lower right corner, there is a type. Change
-the type of the file to "Bubbler". It takes a little while, but it should colorize the source file.
+
+In VSCode, open a file (e.g., a Bubbler source file). In the lower right corner, there is a type. Change the type of the file to "Bubbler". It takes a little while, but it should colorize the source file.
 
 ## Implementation
 
 * LSP server in C#.
 * VSCode client code in Typescript.
-* Grammars are implemented in Antlr4. The parser driver is implemented
-using [trgen](https://github.com/kaby76/Domemtech.Trash/tree/main/trgen).
+* Grammars are implemented in Antlr4. The parser driver is implemented using [trgen](https://github.com/kaby76/Domemtech.Trash/tree/main/trgen).
