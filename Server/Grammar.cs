@@ -37,10 +37,19 @@ public class Grammar
     public static IParseTree Parse(Workspaces.Document document)
     {
         string input = document.Code;
-        var dll = Program.Options
-            .Where(p => p.Suffix == Path.GetExtension(document.FullPath))
-            .Select(p => p.ParserLocation)
-            .First();
+        string dll = string.Empty;
+        for (int i = 0; i < Program.Options.Count; i++)
+        {
+            if (Program.Options[i].Suffix == Path.GetExtension(document.FullPath))
+            {
+                dll = Program.Options[i].ParserLocation;
+                break;
+            }
+        }
+        if (dll == string.Empty)
+        {
+            dll = Program.Options[0].ParserLocation;
+        }
         if (!Path.IsPathRooted(dll))
         {
             dll = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + dll;

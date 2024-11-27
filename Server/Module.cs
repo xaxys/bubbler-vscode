@@ -513,7 +513,7 @@
                     if (!document.Changed) continue;
                     string file_name = document.FullPath;
                     string suffix = System.IO.Path.GetExtension(file_name);
-                    if (file_name == null) continue;
+                    if (suffix == string.Empty) suffix = Program.Options.First().Suffix;
                     var p = Grammar.Parse(document);
                     _all_parses[document] = p;
                     document.Changed = false;
